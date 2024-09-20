@@ -24,7 +24,7 @@ export default function SignIn() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('response ok', data);
-                alert(`User ${data.user.username} created`);
+                alert(`User ${data.username} created`);
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }
