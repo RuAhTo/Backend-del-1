@@ -72,7 +72,7 @@ export async function createUser(req, res) {
     if (result.affectedRows < 1)
       return res.status(400).json({ error: "User not created!" });
 
-    res.status(201).json({ id: result.insertId, message: "User created!" });
+    res.status(201).json({ id: result.insertId, message: "User created!", username: username });
   } catch (error) {
     console.error("Error details:", error);
 
