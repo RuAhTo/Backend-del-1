@@ -37,6 +37,11 @@ export default function SignIn() {
 
 return(
     <>
+    <header>
+        <h1>Welcome!</h1>
+        <h4>Log in or create a new account.</h4>
+    </header>
+    <main>
         <div className="sign-in-container">
             <h2>Sign Up</h2>
             <form onSubmit={handleSignup}>
@@ -71,6 +76,7 @@ return(
             </div>
             </form>
         </div>
+        </main>
     </>
 )
 
