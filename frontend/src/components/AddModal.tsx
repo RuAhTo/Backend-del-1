@@ -1,6 +1,5 @@
 // AddModal.tsx
 import Dropdown from "./dropdown/Dropdown";
-import DropdownItem from "./dropdown/DropdownItem";
 import { useEffect, useState } from 'react';
 
 interface Todo {
@@ -13,7 +12,7 @@ interface Todo {
 interface AddModalProps {
     isOpen: boolean;
     closeModal: () => void;
-    addTodo: (todo: {title: string; content: string; color: number; status: string}) => void;
+    addTodo: (todo: Todo) => void;
 }
 
 export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
@@ -31,38 +30,42 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
 
     // Array
     const colors = [1,2,3,4,5];
-    const items: string[] = ["To Do", "In Progress", "Done"];
 
     // Om modalen inte är öppen returnera null
     if (!isOpen) return null;
 
     // Skapa ny todo
-    function handleAddTodo(e: React.FormEvent) {
+function handleAddTodo(e: React.FormEvent) {
     e.preventDefault();
-    if (!title || !content){
-        alert("Title and/or content are required!")
+    if (!title || !content) {
+        alert("Title and/or content are required!");
         return;
     }
 
-    const newTodo:Todo = {
+    const newTodo: Todo = {
         title,
         content,
         color,
-        status,
+        status, // Använd status från state
     };
 
-    
-    addTodo({ title, content, color, status});
-    
     setTitle('')
     setContent('')
+    setColor(1)
     setStatus('todo');
+
+    addTodo(newTodo); // Skicka todo med korrekt status
+    // Reset och stäng modal
     closeModal();
-    console.log(newTodo);    
-    }   
+}
+
 
     const handleColorClick = (selectedColor: number) => {
         setColor(selectedColor);
+    };
+
+    const handleStatusSelect = (selectedStatus: 'todo' | 'in-progress' | 'done') => {
+        setStatus(selectedStatus);
     };
 
 
@@ -102,7 +105,12 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
                         ))}
                     </div>
                     <div className="dropdown-container">
-                        <Dropdown initialButtonText='Select Status' items={["To Do", "In Progress", "Done"]} />
+                    <Dropdown 
+                        initialButtonText='Select Status' 
+                        items={["To Do", "In Progress", "Done"]} 
+                        onSelect={handleStatusSelect} // Lägg till denna rad
+                    />
+
                     </div>
                     <div className="todo-submit-btn-container">
                         <button type="submit" className="submit-btn" onClick={handleAddTodo}>

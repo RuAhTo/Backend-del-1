@@ -7,9 +7,10 @@ import './Dropdown.css';
 interface DropdownProps {
   initialButtonText: string;  // Ändrat från buttonText till initialButtonText
   items: string[];  // Lista med dropdown-alternativ
+  onSelect: (status: 'todo' | 'in-progress' | 'done') => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ initialButtonText, items }) => {
+const Dropdown: React.FC<DropdownProps> = ({ initialButtonText, items, onSelect }) => {
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>(initialButtonText);  // Använd förvalt buttonText
 
@@ -36,7 +37,16 @@ const Dropdown: React.FC<DropdownProps> = ({ initialButtonText, items }) => {
   const handleItemClick = (item: string) => {
     setSelectedItem(item);  // Uppdatera valt alternativ
     setOpen(false);  // Stäng dropdown-listan
-  };
+    
+    // Anropa onSelect med det valda alternativet
+    if (item === 'To Do') {
+        onSelect('todo');
+    } else if (item === 'In Progress') {
+        onSelect('in-progress');
+    } else if (item === 'Done') {
+        onSelect('done');
+    }
+};
 
   return (
     <div className="dropdown" ref={dropdownRef}>

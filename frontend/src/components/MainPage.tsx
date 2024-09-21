@@ -1,19 +1,29 @@
+import React, { useState } from "react";
 import Categories from "./Categories";
 import MainHeader from "./MainHeader";
-import { useState } from "react";
 
-export default function MainPage(){
+interface Todo {
+    title: string;
+    content: string;
+    color: number;
+    status: 'todo' | 'in-progress' | 'done';
+}
 
+export default function MainPage() {
+    const [todos, setTodos] = useState<Todo[]>([]);
 
-    return(
+    const addTodo = (newTodo: Todo) => {
+        setTodos((prevTodos) => [...prevTodos, newTodo]);
+    };
+
+    return (
         <>
-        <header>
-            <MainHeader/>
-        </header>
-        <main>
-            <Categories/>
-        </main>
+            <header>
+                <MainHeader addTodo={addTodo} />
+            </header>
+            <main>
+                <Categories todos={todos} />
+            </main>
         </>
-    )
-
+    );
 }
