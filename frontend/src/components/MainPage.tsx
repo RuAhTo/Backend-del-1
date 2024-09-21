@@ -16,6 +16,8 @@ export default function MainPage() {
         setTodos((prevTodos) => [...prevTodos, newTodo]);
     };
 
+    
+
     return (
         <>
             <header>
@@ -27,3 +29,4 @@ export default function MainPage() {
         </>
     );
 }
+

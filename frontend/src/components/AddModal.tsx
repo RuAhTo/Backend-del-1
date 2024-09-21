@@ -35,7 +35,7 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     if (!isOpen) return null;
 
     // Skapa ny todo
-function handleAddTodo(e: React.FormEvent) {
+async function handleAddTodo(e: React.FormEvent) {
     e.preventDefault();
     if (!title || !content) {
         alert("Title and/or content are required!");
@@ -48,6 +48,32 @@ function handleAddTodo(e: React.FormEvent) {
         color,
         status, // Använd status från state
     };
+
+    // Skicka information till backend
+            try {
+            const response = await fetch('http://localhost:3000/API/todos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: title,
+                    content: content,
+                    color: color,
+                    status: status,
+                }),
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('response ok', data);
+                alert(`todo ${data.title} created`);
+            } else {
+                throw new Error('Something went wrong ¯\\_(ツ)_/¯');
+            }
+        } catch (error) {
+            console.log('Error', error);
+        }
 
     setTitle('')
     setContent('')
