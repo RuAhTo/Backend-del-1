@@ -1,18 +1,19 @@
 // AddModal.tsx
 import Dropdown from "./dropdown/Dropdown";
 import DropdownItem from "./dropdown/DropdownItem";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Todo {
     title: string;
     content: string;
+    color: number;
     status: 'todo' | 'in-progress' | 'done';
 }
 
 interface AddModalProps {
     isOpen: boolean;
     closeModal: () => void;
-    addTodo: (todo:Todo) => void;
+    addTodo: (todo: {title: string; content: string; color: number; status: string}) => void;
 }
 
 export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
@@ -20,9 +21,16 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     // States
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
+    const [color, setColor] = useState<number>(1);
     const [status, setStatus] = useState<'todo' | 'in-progress' | 'done'>('todo');
 
+    // useEffect som triggas när färgen ändras, för att logga den uppdaterade färgen
+    useEffect(() => {
+        console.log(`Current color is ${color}`);
+    }, [color]); // Körs när "color" uppdateras
+
     // Array
+    const colors = [1,2,3,4,5];
     const items: string[] = ["To Do", "In Progress", "Done"];
 
     // Om modalen inte är öppen returnera null
@@ -39,17 +47,24 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     const newTodo:Todo = {
         title,
         content,
+        color,
         status,
     };
 
-    addTodo(newTodo);
-
+    
+    addTodo({ title, content, color, status});
+    
     setTitle('')
     setContent('')
     setStatus('todo');
     closeModal();
+    console.log(newTodo);    
+    }   
 
-    }
+    const handleColorClick = (selectedColor: number) => {
+        setColor(selectedColor);
+    };
+
 
     return (
         <div className="modal-overlay">
@@ -75,15 +90,19 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
                         placeholder="What do you need to do?"
                         />
                     </div>
-                    <div className="color-selector-container">
-                        <div className="color-1 color-pip"></div>
-                        <div className="color-2 color-pip color-selected"></div>
-                        <div className="color-3 color-pip"></div>
-                        <div className="color-4 color-pip"></div>
-                        <div className="color-5 color-pip"></div>
+                    <div 
+                    className="color-selector-container"
+>
+                        {colors.map((colorValue) => (
+                            <div
+                                key={colorValue}
+                                className={`color-${colorValue} color-pip ${color === colorValue ? 'color-selected' : ''}`}
+                                onClick={() => handleColorClick(colorValue)}
+                            ></div>
+                        ))}
                     </div>
                     <div className="dropdown-container">
-                        <Dropdown initialButtonText="Select Status" items={["To Do", "In Progress", "Done"]} />
+                        <Dropdown initialButtonText='Select Status' items={["To Do", "In Progress", "Done"]} />
                     </div>
                     <div className="todo-submit-btn-container">
                         <button type="submit" className="submit-btn" onClick={handleAddTodo}>

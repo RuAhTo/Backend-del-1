@@ -7,6 +7,12 @@ export default function MainHeader() {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    // Din addTodo-funktion som hanterar tillägg av todos
+    const addTodo = (todo: { title: string; content: string; status: string }) => {
+        console.log('New Todo:', todo);
+        // Här kan du lägga till logiken för att spara todos
+    };
+
     return (
         <div className="main-header">
             <div>
@@ -17,7 +23,7 @@ export default function MainHeader() {
                 <button className="header-btn">Account</button>
                 <button className="header-btn">?</button>
             </div>
-            <AddModal isOpen={isModalOpen} closeModal={closeModal} />
+            <AddModal isOpen={isModalOpen} closeModal={closeModal} addTodo={addTodo} />
         </div>
     );
 }
