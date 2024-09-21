@@ -6,6 +6,23 @@ async function query(sql, params) {
   return results;
 }
 
+//GET todos
+export async function getTodos(req, res) {
+    try {
+      const result = await query("SELECT * FROM todos");
+  
+      if (!result.length)
+        return res.status(404).json({ message: "No todos found" });
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Error details:", error);
+  
+      res.status(500).json({ error: "Database query failed!" });
+    }
+  }
+
+//POST todos
 export async function createTodo(req, res) {
     try {
       const { title, content, color, status } = req.body;

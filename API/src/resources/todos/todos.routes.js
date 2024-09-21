@@ -1,7 +1,7 @@
 import express from "express";
 
 // Import handlers  from users.controller.js
-import {createTodo} from "./todos.controllers.js";
+import {createTodo, getTodos} from "./todos.controllers.js";
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ const router = express.Router();
 
 
 // CRUD for users
+router.get("/todos", getTodos);
 router.post("/todos", createTodo);
 
 export default router;

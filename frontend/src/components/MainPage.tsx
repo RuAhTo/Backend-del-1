@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Categories from "./Categories";
 import MainHeader from "./MainHeader";
 
@@ -16,7 +16,30 @@ export default function MainPage() {
         setTodos((prevTodos) => [...prevTodos, newTodo]);
     };
 
+        async function fetchTodos() {
+            try {
+                const response = await fetch('http://localhost:3000/api/todos', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
     
+                if (response.ok) {
+                    const data = await response.json();
+                    setTodos(data); // Uppdatera state med hämtade todos
+                    console.log('Todos fetched successfully', data);
+                } else {
+                    throw new Error('Failed to fetch todos ¯\\_(ツ)_/¯');
+                }
+            } catch (error) {
+                console.error('Error fetching todos:', error);
+            }
+        }
+
+        useEffect(() => {
+            fetchTodos();
+        }, [])
 
     return (
         <>
