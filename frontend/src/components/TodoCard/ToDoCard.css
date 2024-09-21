@@ -1,0 +1,18 @@
+.todo-card{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: .5rem;
+    height: fit-content;
+    margin-bottom: 1rem;
+}
+
+.todo-card-header{
+    background-color: rgb(135, 205, 222);
+    border-radius: .5rem .5rem 0 0;
+    padding: .5rem;
+}
+
+.todo-card-content{
+    padding: .5rem;
+    height: fit-content;
+    min-height: 3rem;
+}

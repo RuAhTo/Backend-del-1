@@ -3,21 +3,53 @@ import Dropdown from "./dropdown/Dropdown";
 import DropdownItem from "./dropdown/DropdownItem";
 import { useState } from 'react';
 
+interface Todo {
+    title: string;
+    content: string;
+    status: 'todo' | 'in-progress' | 'done';
+}
+
 interface AddModalProps {
     isOpen: boolean;
     closeModal: () => void;
+    addTodo: (todo:Todo) => void;
 }
 
-export default function AddModal({ isOpen, closeModal }: AddModalProps) {
+export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
 
+    // States
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
-    
     const [status, setStatus] = useState<'todo' | 'in-progress' | 'done'>('todo');
-    
+
+    // Array
     const items: string[] = ["To Do", "In Progress", "Done"];
 
+    // Om modalen inte är öppen returnera null
     if (!isOpen) return null;
+
+    // Skapa ny todo
+    function handleAddTodo(e: React.FormEvent) {
+    e.preventDefault();
+    if (!title || !content){
+        alert("Title and/or content are required!")
+        return;
+    }
+
+    const newTodo:Todo = {
+        title,
+        content,
+        status,
+    };
+
+    addTodo(newTodo);
+
+    setTitle('')
+    setContent('')
+    setStatus('todo');
+    closeModal();
+
+    }
 
     return (
         <div className="modal-overlay">
@@ -43,21 +75,18 @@ export default function AddModal({ isOpen, closeModal }: AddModalProps) {
                         placeholder="What do you need to do?"
                         />
                     </div>
+                    <div className="color-selector-container">
+                        <div className="color-1 color-pip"></div>
+                        <div className="color-2 color-pip color-selected"></div>
+                        <div className="color-3 color-pip"></div>
+                        <div className="color-4 color-pip"></div>
+                        <div className="color-5 color-pip"></div>
+                    </div>
                     <div className="dropdown-container">
-                    <Dropdown
-                        buttonText="Status"
-                        content={
-                        <>
-                            {items.map((item) => (
-                                <DropdownItem key={item} onClick={() => setStatus(item.toLowerCase().replace(" ", "-"))}>
-                                    {item}
-                                </DropdownItem>
-                            ))}
-                        </>}  
-                    />
+                        <Dropdown initialButtonText="Select Status" items={["To Do", "In Progress", "Done"]} />
                     </div>
                     <div className="todo-submit-btn-container">
-                        <button type="submit" className="submit-btn">
+                        <button type="submit" className="submit-btn" onClick={handleAddTodo}>
                             Add Todo
                         </button>
                     </div>
