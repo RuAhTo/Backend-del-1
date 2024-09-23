@@ -1,7 +1,7 @@
 import express from "express";
 
-// Import handlers from todos.controllers.ts
-import { createTodo, getTodos, updatePartialTodo, updateTodo } from "./todos.controllers";
+// Import handlers from todos.controllers.ts (som använder Prisma)
+import { createTodo, getTodos, updatePartialTodo, updateTodo } from "./todos.controllers"; // Se till att den rätta sökvägen används
 
 const router = express.Router();
 

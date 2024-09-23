@@ -36,7 +36,7 @@ export default function MainPage() {
                 ));
     
                 try {
-                    const response = await fetch(`http://localhost:3000/api/todos/${updatedTodo.id}`, {
+                    const response = await fetch(`http://localhost:3000/dnd_todo/todos/${updatedTodo.id}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export default function MainPage() {
 
     async function fetchTodos() {
         try {
-            const response = await fetch('http://localhost:3000/api/todos', {
+            const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function MainPage() {
                 setTodos(data);
                 console.log('Todos fetched successfully', data);
             } else {
-                throw new Error('Failed to fetch todos ¯\\_(ツ)_/¯');
+                throw new Error('Seems empty here ¯\\_(ツ)_/¯');
             }
         } catch (error) {
             console.error('Error fetching todos:', error);

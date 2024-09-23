@@ -10,7 +10,7 @@ const LogIn: React.FC = () => {
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = await fetch('http://localhost:3000/api/login', {
+        const response = await fetch('http://localhost:3000/dnd_todo/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

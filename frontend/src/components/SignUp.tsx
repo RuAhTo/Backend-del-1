@@ -1,15 +1,18 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+    const navigate = useNavigate(); // Använd useNavigate för att navigera
 
     const handleSignup = async (event: React.FormEvent) => {
+
+
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/API/users', {
+            const response = await fetch('http://localhost:3000/dnd_todo/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,6 +28,7 @@ export default function SignIn() {
                 const data = await response.json();
                 console.log('response ok', data);
                 alert(`User ${data.username} created`);
+                navigate('/login'); // Navigera till huvudsidan
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }

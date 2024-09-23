@@ -54,7 +54,7 @@ async function handleAddTodo(e: React.FormEvent) {
 
     // Skicka information till backend
             try {
-            const response = await fetch('http://localhost:3000/API/todos', {
+            const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
