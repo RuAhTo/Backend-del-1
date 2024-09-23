@@ -1,6 +1,7 @@
 import { pool } from "./../../db/connect.js";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import {prisma } from "@prisma/client"
 
 async function query(sql, params) {
   const [results] = await pool.execute(sql, params);
@@ -158,3 +159,7 @@ export async function loginUser(req, res){
     res.status(500).json({error:"Login failed!"})
   }
 }
+
+/**
+ * @description
+ */

@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken } from "../../middleware/verifyToken.js";
+import { verifyToken } from "../../middleware/verifyToken.ts";
 
 // Import handlers  from users.controller.js
 import {getUsers, getUser, createUser, updateUser, deleteUser, loginUser} from "./users.controllers.js";
