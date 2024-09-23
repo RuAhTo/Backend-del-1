@@ -8,7 +8,7 @@ interface Todo {
     title: string;
     content: string;
     color: number;
-    status: 'todo' | 'in-progress' | 'done';
+    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
 }
 
 interface CategoriesProps {
@@ -38,9 +38,9 @@ export default function Categories({ todos }: CategoriesProps) {
                 <div className="status-header">
                     <h2>To Do</h2>
                 </div>
-                <Droppable id="todo">  {/* Drop zone för "todo" */}
+                <Droppable id="TODO">  {/* Drop zone för "todo" */}
                     <div className="status-content">
-                        {todos.filter(todo => todo.status === 'todo').map(todo => (
+                        {todos.filter(todo => todo.status === 'TODO').map(todo => (
                             <ToDoCard key={todo.id} id={todo.id} title={todo.title} content={todo.content} color={todo.color} />
                         ))}
                     </div>
@@ -51,9 +51,9 @@ export default function Categories({ todos }: CategoriesProps) {
                 <div className="status-header">
                     <h2>In Progress</h2>
                 </div>
-                <Droppable id="in-progress">  {/* Drop zone för "in-progress" */}
+                <Droppable id="IN_PROGRESS">  {/* Drop zone för "in-progress" */}
                     <div className="status-content">
-                        {todos.filter(todo => todo.status === 'in-progress').map(todo => (
+                        {todos.filter(todo => todo.status === 'IN_PROGRESS').map(todo => (
                             <ToDoCard key={todo.id} id={todo.id} title={todo.title} content={todo.content} color={todo.color} />
                         ))}
                     </div>
@@ -64,9 +64,9 @@ export default function Categories({ todos }: CategoriesProps) {
                 <div className="status-header">
                     <h2>Done</h2>
                 </div>
-                <Droppable id="done">  {/* Drop zone för "done" */}
+                <Droppable id="DONE">  {/* Drop zone för "done" */}
                     <div className="status-content">
-                        {todos.filter(todo => todo.status === 'done').map(todo => (
+                        {todos.filter(todo => todo.status === 'DONE').map(todo => (
                             <ToDoCard key={todo.id} id={todo.id} title={todo.title} content={todo.content} color={todo.color} />
                         ))}
                     </div>

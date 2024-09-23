@@ -9,32 +9,40 @@ interface Todo {
     title: string;
     content: string;
     color: number;
-    status: 'todo' | 'in-progress' | 'done';
+    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
 }
 
 export default function MainPage() {
     const [todos, setTodos] = useState<Todo[]>([]);
-    const handleDragEnd = async (event: DragEndEvent) => {
+
+    const handleDragEnd = async (event: DragEndEvent): Promise<void> => {
         const { active, over } = event;
-    
+
         if (!over) return;
-    
+
         const activeId = active.id.toString();
         const overId = over.id.toString();
-    
-        // Om kortet dras till en ny kategori
+
+        // Kontrollera om overId är en giltig status
+        const validStatuses: Todo['status'][] = ['TODO', 'IN_PROGRESS', 'DONE'];
+        if (!validStatuses.includes(overId as Todo['status'])) {
+            console.error('Invalid status:', overId);
+            return;
+        }
+
+        // Om kortet dras till en ny kategori (status)
         if (activeId !== overId) {
             const oldTodo = todos.find(todo => todo.id.toString() === activeId);
-            const newStatus = overId; // Nya statusen är id:t på den nya droppable-zonen
-    
-            if (oldTodo && newStatus) {
+            const newStatus = overId as 'TODO' | 'IN_PROGRESS' | 'DONE'; // Validerad status
+
+            if (oldTodo) {
                 // Uppdatera status i state, resten av todo-objektet förblir oförändrat
-                const updatedTodo = { ...oldTodo, status: newStatus as 'todo' | 'in-progress' | 'done' };
-    
+                const updatedTodo: Todo = { ...oldTodo, status: newStatus };
+
                 setTodos(todos.map(todo =>
                     todo.id.toString() === activeId ? updatedTodo : todo
                 ));
-    
+
                 try {
                     const response = await fetch(`http://localhost:3000/dnd_todo/todos/${updatedTodo.id}`, {
                         method: 'PATCH',
@@ -43,21 +51,23 @@ export default function MainPage() {
                         },
                         body: JSON.stringify({ status: updatedTodo.status }),
                     });
-                    
+
                     if (response.ok) {
                         const data = await response.json();
-                        console.log('response ok', data, ` Todo ${updatedTodo.id} has been updated to ${newStatus} `);
+                        console.log('Todo updated:', data, `Todo ${updatedTodo.id} has been updated to ${newStatus}`);
                     } else {
-                        throw new Error('Something went wrong ¯\\_(ツ)_/¯');
+                        const errorData = await response.json();
+                        console.error('Error updating todo:', errorData);
+                        throw new Error('Failed to update todo status.');
                     }
                 } catch (error) {
-                    console.log('Error', error);
+                    console.error('Error:', error);
                 }
             }
         }
     }
 
-    async function fetchTodos() {
+    const fetchTodos = async (): Promise<void> => {
         try {
             const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'GET',
@@ -67,7 +77,7 @@ export default function MainPage() {
             });
 
             if (response.ok) {
-                const data = await response.json();
+                const data: Todo[] = await response.json();
                 setTodos(data);
                 console.log('Todos fetched successfully', data);
             } else {
@@ -85,9 +95,9 @@ export default function MainPage() {
     return (
         <>
             <DndContext onDragEnd={handleDragEnd}>
-            <header>
-                <MainHeader addTodo={(newTodo: Todo) => setTodos([...todos, newTodo])} />
-            </header>
+                <header>
+                    <MainHeader addTodo={(newTodo: Todo) => setTodos([...todos, newTodo])} />
+                </header>
                 <main>
                     <Categories todos={todos} setTodos={setTodos} />
                 </main>
