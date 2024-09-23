@@ -1,5 +1,6 @@
 import { pool } from "./../../db/connect.js";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 async function query(sql, params) {
   const [results] = await pool.execute(sql, params);
@@ -132,5 +133,28 @@ export async function deleteUser(req, res) {
 
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });
+  }
+}
+
+//Log In User
+
+export async function loginUser(req, res){
+  try {
+    const { username, password } = req.body;
+
+    const result = await query("SELECT * FROM users WHERE username = ?", [username])
+    const user = result[0]
+
+    if(!user || !bcrypt.compareSync(password, user.password)){
+      return res.status(401).json({error: "invalid username or password"})
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {expiresIn: '1h'})
+    res.json({ token })
+
+
+  } catch (error) {
+    console.error("Error details:", error);
+    res.status(500).json({error:"Login failed!"})
   }
 }

@@ -1,7 +1,8 @@
 import express from "express";
+import { verifyToken } from "../../middleware/verifyToken.js";
 
 // Import handlers  from users.controller.js
-import {getUsers, getUser, createUser, updateUser, deleteUser} from "./users.controllers.js";
+import {getUsers, getUser, createUser, updateUser, deleteUser, loginUser} from "./users.controllers.js";
 
 const router = express.Router();
 
@@ -14,10 +15,12 @@ const router = express.Router();
 
 // CRUD for users
 router.get("/users", getUsers);
-router.get("/users/:id", getUser);
-router.put("/users/:id", updateUser);
+router.get("/users/:id", verifyToken, getUser);
+router.put("/users/:id", verifyToken, updateUser);
 router.post("/users", createUser);
-router.delete("/users/:id", deleteUser);
+router.delete("/users/:id", verifyToken, deleteUser);
+router.post("/login", loginUser);
+
 
 
 export default router;

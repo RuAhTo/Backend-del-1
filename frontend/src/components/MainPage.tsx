@@ -35,25 +35,27 @@ export default function MainPage() {
                     todo.id.toString() === activeId ? updatedTodo : todo
                 ));
     
-                // Skicka en request till backend för att uppdatera status
                 try {
-                    await fetch(`http://localhost:3000/api/todos/${updatedTodo.id}`, {
-                        method: 'PATCH', // PATCH används för att uppdatera en del av ett objekt
+                    const response = await fetch(`http://localhost:3000/api/todos/${updatedTodo.id}`, {
+                        method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ status: updatedTodo.status }), // Skicka endast det som ändras
+                        body: JSON.stringify({ status: updatedTodo.status }),
                     });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('response ok', data, ` Todo ${updatedTodo.id} has been updated to ${newStatus} `);
+                    } else {
+                        throw new Error('Something went wrong ¯\\_(ツ)_/¯');
+                    }
                 } catch (error) {
-                    console.error('Failed to update todo status:', error);
+                    console.log('Error', error);
                 }
             }
         }
-    };
-
-    const addTodo = (newTodo: Todo) => {
-        setTodos((prevTodos) => [...prevTodos, newTodo]);
-    };
+    }
 
     async function fetchTodos() {
         try {
