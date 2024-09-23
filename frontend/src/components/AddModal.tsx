@@ -3,6 +3,7 @@ import Dropdown from "./dropdown/Dropdown";
 import { useEffect, useState } from 'react';
 
 interface Todo {
+    id: number;
     title: string;
     content: string;
     color: number;
@@ -21,6 +22,7 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [color, setColor] = useState<number>(1);
+    const [id, setId] = useState<number>(0);
     const [status, setStatus] = useState<'todo' | 'in-progress' | 'done'>('todo');
 
     // useEffect som triggas när färgen ändras, för att logga den uppdaterade färgen
@@ -43,6 +45,7 @@ async function handleAddTodo(e: React.FormEvent) {
     }
 
     const newTodo: Todo = {
+        id,
         title,
         content,
         color,
@@ -57,6 +60,7 @@ async function handleAddTodo(e: React.FormEvent) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: id,
                     title: title,
                     content: content,
                     color: color,
@@ -75,6 +79,7 @@ async function handleAddTodo(e: React.FormEvent) {
             console.log('Error', error);
         }
 
+    setId(id + 1);
     setTitle('')
     setContent('')
     setColor(1)

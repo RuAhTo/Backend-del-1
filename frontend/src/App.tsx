@@ -3,6 +3,7 @@ import MainPage from "./components/MainPage"
 import SignUp from "./components/SignUp"
 import {Routes, Route} from 'react-router-dom'
 
+
 function App() {
 
   return (

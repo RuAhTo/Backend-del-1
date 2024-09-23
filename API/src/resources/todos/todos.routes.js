@@ -1,7 +1,7 @@
 import express from "express";
 
 // Import handlers  from users.controller.js
-import {createTodo, getTodos} from "./todos.controllers.js";
+import {createTodo, getTodos, updatePartialTodo, updateTodo} from "./todos.controllers.js";
 
 const router = express.Router();
 
@@ -15,5 +15,7 @@ const router = express.Router();
 // CRUD for users
 router.get("/todos", getTodos);
 router.post("/todos", createTodo);
+router.put("/todos/:id", updateTodo);
+router.patch("/todos/:id", updatePartialTodo);
 
 export default router;
