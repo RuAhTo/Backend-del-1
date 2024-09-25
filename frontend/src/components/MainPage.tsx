@@ -69,24 +69,31 @@ export default function MainPage() {
 
     const fetchTodos = async (): Promise<void> => {
         try {
+            const token = localStorage.getItem('token'); // Hämta token från localStorage
+    
+            if (!token) {
+                throw new Error("No token found. Please log in.");
+            }
+    
             const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // Skicka token i Authorization-header
                 },
             });
-
+    
             if (response.ok) {
                 const data: Todo[] = await response.json();
                 setTodos(data);
                 console.log('Todos fetched successfully', data);
             } else {
-                throw new Error('Seems empty here ¯\\_(ツ)_/¯');
+                throw new Error('Failed to fetch todos');
             }
         } catch (error) {
             console.error('Error fetching todos:', error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchTodos();

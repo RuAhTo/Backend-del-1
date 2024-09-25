@@ -21,6 +21,8 @@ const LogIn: React.FC = () => {
         if (response.ok) {
             const data = await response.json();
             login(data.token);
+            localStorage.setItem('token', data.token); // Spara token i localStorage
+            localStorage.setItem('userId', data.id); // Spara användarens ID separat
             navigate('/'); // Navigera till huvudsidan
         }
     };

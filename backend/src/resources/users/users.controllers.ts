@@ -165,7 +165,7 @@ export async function updateUser(req: Request, res: Response) {
       
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-      res.json({ token });
+      res.json({ token, id: user.id });
     } catch (error) {
       console.error("Error details:", error);
       res.status(500).json({ error: "Login failed!" });

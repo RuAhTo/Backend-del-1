@@ -1,4 +1,3 @@
-// AddModal.tsx
 import Dropdown from "./dropdown/Dropdown";
 import { useEffect, useState } from 'react';
 
@@ -7,7 +6,8 @@ interface Todo {
     title: string;
     content: string;
     color: number;
-    status: 'todo' | 'in-progress' | 'done';
+    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    authorId: number | null; // Ändra till userId för att matcha din backend
 }
 
 interface AddModalProps {
@@ -22,8 +22,7 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [color, setColor] = useState<number>(1);
-    const [id, setId] = useState<number>(0);
-    const [status, setStatus] = useState<'todo' | 'in-progress' | 'done'>('todo');
+    const [status, setStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
 
     // useEffect som triggas när färgen ändras, för att logga den uppdaterade färgen
     useEffect(() => {
@@ -31,47 +30,46 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     }, [color]); // Körs när "color" uppdateras
 
     // Array
-    const colors = [1,2,3,4,5];
+    const colors = [1, 2, 3, 4, 5];
 
     // Om modalen inte är öppen returnera null
     if (!isOpen) return null;
 
     // Skapa ny todo
-async function handleAddTodo(e: React.FormEvent) {
-    e.preventDefault();
-    if (!title || !content) {
-        alert("Title and/or content are required!");
-        return;
-    }
+    async function handleAddTodo(e: React.FormEvent) {
+        e.preventDefault();
+        if (!title || !content) {
+            alert("Title and/or content are required!");
+            return;
+        }
 
-    const newTodo: Todo = {
-        id,
-        title,
-        content,
-        color,
-        status, // Använd status från state
-    };
+        // Hämta userId från localStorage
+        const authorId = localStorage.getItem('userId');
 
-    // Skicka information till backend
-            try {
+        const newTodo: Todo = {
+            id: Date.now(), // Generera ett unikt ID (eller hantera det på annat sätt om du har en backend)
+            title,
+            content,
+            color,
+            status, // Använd status från state
+            authorId: authorId ? parseInt(authorId) : null, // Konvertera userId till ett heltal om det finns
+        };
+
+        // Skicka information till backend
+        try {
             const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    id: id,
-                    title: title,
-                    content: content,
-                    color: color,
-                    status: status,
-                }),
+                body: JSON.stringify(newTodo), // Använd newTodo direkt
             });
-            
+
             if (response.ok) {
                 const data = await response.json();
                 console.log('response ok', data);
-                alert(`todo ${data.title} created`);
+                alert(`Todo "${data.title}" created`);
+                addTodo(newTodo); // Skicka todo med korrekt status
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }
@@ -79,35 +77,30 @@ async function handleAddTodo(e: React.FormEvent) {
             console.log('Error', error);
         }
 
-    setId(id + 1);
-    setTitle('')
-    setContent('')
-    setColor(1)
-    setStatus('todo');
-
-    addTodo(newTodo); // Skicka todo med korrekt status
-    // Reset och stäng modal
-    closeModal();
-}
-
+        // Reset form
+        setTitle('');
+        setContent('');
+        setColor(1);
+        setStatus('TODO');
+        closeModal(); // Stäng modal
+    }
 
     const handleColorClick = (selectedColor: number) => {
         setColor(selectedColor);
     };
 
-    const handleStatusSelect = (selectedStatus: 'todo' | 'in-progress' | 'done') => {
+    const handleStatusSelect = (selectedStatus: 'TODO' | 'IN_PROGRESS' | 'DONE') => {
         setStatus(selectedStatus);
     };
-
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="modal-header">
-                <h2>Create a Todo</h2>
-                <button onClick={closeModal} className="close-modal-btn">X</button>
+                    <h2>Create a Todo</h2>
+                    <button onClick={closeModal} className="close-modal-btn">X</button>
                 </div>
-                <form className="add-form">
+                <form className="add-form" onSubmit={handleAddTodo}>
                     <div className="title-input-container">
                         <input 
                             type="text" 
@@ -118,15 +111,13 @@ async function handleAddTodo(e: React.FormEvent) {
                     </div>
                     <div className="content-input-container">
                         <input 
-                        type="text"
-                        value={content} 
-                        onChange={(e) => setContent(e.target.value)} 
-                        placeholder="What do you need to do?"
+                            type="text"
+                            value={content} 
+                            onChange={(e) => setContent(e.target.value)} 
+                            placeholder="What do you need to do?"
                         />
                     </div>
-                    <div 
-                    className="color-selector-container"
->
+                    <div className="color-selector-container">
                         {colors.map((colorValue) => (
                             <div
                                 key={colorValue}
@@ -136,15 +127,14 @@ async function handleAddTodo(e: React.FormEvent) {
                         ))}
                     </div>
                     <div className="dropdown-container">
-                    <Dropdown 
-                        initialButtonText='Select Status' 
-                        items={["To Do", "In Progress", "Done"]} 
-                        onSelect={handleStatusSelect} // Lägg till denna rad
-                    />
-
+                        <Dropdown 
+                            initialButtonText='Select Status' 
+                            items={["To Do", "In Progress", "Done"]} 
+                            onSelect={handleStatusSelect} 
+                        />
                     </div>
                     <div className="todo-submit-btn-container">
-                        <button type="submit" className="submit-btn" onClick={handleAddTodo}>
+                        <button type="submit" className="submit-btn">
                             Add Todo
                         </button>
                     </div>

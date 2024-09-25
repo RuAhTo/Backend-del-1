@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { JwtPayload } from 'jsonwebtoken'
+import { AuthenticatedRequest } from '../../middleware/verifyToken'
 
 const prisma = new PrismaClient();
 
@@ -20,10 +22,36 @@ export async function getTodos(req: Request, res: Response) {
   }
 }
 
+//GET todos for authenticated user
+export async function getUserTodos(req: AuthenticatedRequest, res: Response) {
+  try {
+    // Kontrollera att user finns och att vi har ett id (beroende på hur du strukturerade JWT)
+    const user = req.user as JwtPayload; // Se till att typecasta korrekt
+    const userId = user.id; // Antag att du har user.id i din token payload
+
+    const todos = await prisma.todos.findMany({
+      where: {
+        authorId: userId, // Använd userId från JWT
+      },
+    });
+
+    if (!todos.length) {
+      return res.status(404).json({ message: "No todos found for this user" });
+    }
+
+    res.status(200).json(todos);
+  } catch (error) {
+    console.error("Error details:", error);
+    res.status(500).json({ error: "Database query failed!" });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 //POST todos
 export async function createTodo(req: Request, res: Response) {
   try {
-    const { title, content, color, status } = req.body;
+    const { title, content, color, status, authorId } = req.body;
 
     const newTodo = await prisma.todos.create({
       data: {
@@ -31,12 +59,13 @@ export async function createTodo(req: Request, res: Response) {
         content,
         color,
         status,
+        authorId,
       },
     });
 
     res
       .status(201)
-      .json({ id: newTodo.id, message: "Todo created!", title: newTodo.title, status: newTodo.status });
+      .json({ id: newTodo.id, message: "Todo created!", title: newTodo.title, status: newTodo.status, authorId: newTodo.authorId });
   } catch (error) {
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });

@@ -7,7 +7,7 @@ import './Dropdown.css';
 interface DropdownProps {
   initialButtonText: string;  // Ändrat från buttonText till initialButtonText
   items: string[];  // Lista med dropdown-alternativ
-  onSelect: (status: 'todo' | 'in-progress' | 'done') => void;
+  onSelect: (status: 'TODO' | 'IN_PROGRESS' | 'DONE') => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ initialButtonText, items, onSelect }) => {
@@ -40,11 +40,11 @@ const Dropdown: React.FC<DropdownProps> = ({ initialButtonText, items, onSelect 
     
     // Anropa onSelect med det valda alternativet
     if (item === 'To Do') {
-        onSelect('todo');
+        onSelect('TODO');
     } else if (item === 'In Progress') {
-        onSelect('in-progress');
+        onSelect('IN_PROGRESS');
     } else if (item === 'Done') {
-        onSelect('done');
+        onSelect('DONE');
     }
 };
 

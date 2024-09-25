@@ -9,7 +9,6 @@ export default function SignIn() {
 
     const handleSignup = async (event: React.FormEvent) => {
 
-
         event.preventDefault();
         try {
             const response = await fetch('http://localhost:3000/dnd_todo/users', {
