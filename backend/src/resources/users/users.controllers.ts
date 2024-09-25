@@ -61,7 +61,6 @@ export async function getUser(req:Request, res:Response){
 
 /**
  * @description Create user
- * @route POST /users/new
  */
  
 export async function createUser(req:Request, res:Response) {

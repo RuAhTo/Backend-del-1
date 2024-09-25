@@ -10,6 +10,7 @@ interface Todo {
     content: string;
     color: number;
     status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+    authorId: number;
 }
 
 export default function MainPage() {
