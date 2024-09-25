@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import AddModal from './AddModal';
+import { FaPlusCircle, FaQuestionCircle } from "react-icons/fa";
+import AddModal from './Modal/AddModal';
+import '../pages/MainPage.css'
 
 interface MainHeaderProps {
     addTodo: (todo: { title: string; content: string; color: number; status: string }) => void;
@@ -17,9 +19,9 @@ export default function MainHeader({ addTodo }: MainHeaderProps) {
                 <h4>Make it happen!</h4>
             </div>
             <div className="main-header-btn-container">
-                <button onClick={openModal}>+</button>
+                <button className="header-btn" onClick={openModal}><FaPlusCircle className='btn-icon'/></button>
                 <button className="header-btn">Account</button>
-                <button className="header-btn">?</button>
+                <button className="header-btn"><FaQuestionCircle className='btn-icon'/></button>
             </div>
             <AddModal isOpen={isModalOpen} closeModal={closeModal} addTodo={addTodo} />
         </div>

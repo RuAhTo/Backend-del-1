@@ -1,5 +1,6 @@
-import Dropdown from "./dropdown/Dropdown";
+import Dropdown from "../dropdown/Dropdown";
 import { useEffect, useState } from 'react';
+import './AddModal.css'
 
 interface Todo {
     id: number;

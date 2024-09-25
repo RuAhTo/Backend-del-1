@@ -18,7 +18,7 @@
 }
 
 .todo-card {
-    transition: transform 0.2s ease; /* Gör dragningen smidigare */
+    transition: transform 0.1s ease; /* Gör dragningen smidigare */
     z-index: 1; /* Se till att dragna kort är ovanpå andra kort */
 }
 

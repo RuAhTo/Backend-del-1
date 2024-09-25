@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react"
-import LogIn from "./components/LogIn"
-import MainPage from "./components/MainPage"
-import SignUp from "./components/SignUp"
+import LogIn from "./pages/LogIn"
+import MainPage from "./pages/MainPage"
+import SignUp from "./pages/SignUp"
 import {Routes, Route} from 'react-router-dom'
 import { Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/auth/AuthProvider'; // Importera AuthProvider

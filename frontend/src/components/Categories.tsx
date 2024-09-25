@@ -27,6 +27,9 @@ const Droppable = ({ id, children }: { id: string; children: React.ReactNode }) 
             className={`drop-zone ${isOver ? 'over' : ''}`} // Visar "over"-klass när man drar över en zone
         >
             {children}
+            {isOver && (
+                <p className="drop-zone-text">Drop here!</p> // Visar texten om musen är över droppzonen
+            )}
         </div>
     );
 };

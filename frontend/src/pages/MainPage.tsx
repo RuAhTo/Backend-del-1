@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Categories from "./Categories";
-import MainHeader from "./MainHeader";
+import Categories from "../components/Categories";
+import MainHeader from "../components/MainHeader";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import './MainPage.css'
 import '../index.css'
 
 interface Todo {

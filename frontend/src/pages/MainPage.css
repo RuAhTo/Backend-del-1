@@ -1,0 +1,194 @@
+
+header{
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    width: 100%;
+}
+main{
+    height: 70vh;
+}
+.main-header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.main-header-btn-container{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+    width: 15%;
+}
+
+.main-header-btn-container button{
+    background: none;
+    border: 2px solid black;
+    padding: 1rem;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.main-header-btn-container button:hover{
+    background-color: #ccc;
+    font-style: italic;
+}
+.btn-icon{
+    font-size: 24px;
+}  
+  .status-container{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    width: 40rem; 
+    height: 45rem;
+  }
+  
+  .status-header{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    height: fit-content;
+    border-bottom: 2px solid rgba(199, 199, 199, 0.478);
+  }
+  
+  .status-content{
+    padding: 1rem;
+    height: 80%;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+    width: 50rem;
+    height: 30rem;
+  }
+  
+  .modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 4rem;
+  }
+  
+  .open-modal-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  /* .title-input-container{
+  
+  } */
+  
+  .color-selector-container{
+    display: flex;
+    width: 25%;
+    justify-content: space-around;
+  
+  }
+  
+  .color-pip{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    border-radius: 50%;
+    padding: .8rem;
+    cursor: pointer;
+  }
+  .color-pip:hover{
+    transform: scale(1.05);
+  }
+  
+  .color-selected{
+    box-shadow: rgba(0, 0, 0, 0.473) 0px 0px 0px 2px;
+  }
+  .color-1{
+    background-color: rgb(137, 137, 255);
+  }
+  .color-2{
+    background-color: rgb(137, 255, 190);
+  }
+  .color-3{
+    background-color: rgb(255, 137, 202);
+  }
+  .color-4{
+    background-color: rgb(220, 137, 255);
+  }
+  .color-5{
+    background-color: rgb(255, 137, 137);
+  }
+  .todo-card {
+    transition: transform 0.2s ease; /* Gör dragningen smidigare */
+    z-index: 1; /* Se till att dragna kort är ovanpå andra kort */
+  }
+  
+  .status-content {
+    position: relative; /* Detta tillåter absolut positionering av kort */
+  }
+  
+  .dragging {
+    opacity: 0.8;
+    position: absolute; /* Gör att kortet flyttas fritt i containern */
+    z-index: 10; /* Högre z-index för att vara överst */
+  }
+  
+  /* index.css */
+  .drop-zone {
+    padding: 10px;
+    height: 100%;
+    transition: background-color 0.3s ease;
+    border-radius: 1rem;
+  }
+  .drop-zone.over {
+    position: relative;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    height: 100%;
+    transition: background-color 0.3s ease;
+    border-radius: 0 0 1rem 1rem;
+  }
+  
+  .drop-zone.over {
+    background-color: #f0f0f0;
+  }
+  .drop-zone-text {
+    position: absolute; 
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%, -50%); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger; 
+    font-style: italic;
+    color: #999;
+}

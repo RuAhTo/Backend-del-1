@@ -1,0 +1,67 @@
+.auth-container{
+    padding: .8rem;
+    border-radius: .6rem;
+    height: 20rem;
+    width: 24rem;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.auth-form-container{
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.input-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-container input{
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: .2rem;
+    padding: .1rem;
+}
+
+.auth-btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-btn-container button{
+    margin-top: 2rem;
+    border: none;
+    background: none;
+    background-color:rgb(250, 26, 119);
+    width: 10rem;
+    border-radius: 2rem;
+    height: 2rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.auth-link-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 1.5rem;
+}
+.auth-link-container p{
+    font-size: small;
+    text-decoration: none;
+    color: black;
+}
+a:-webkit-any-link {
+    font-size: small;
+    color: black;
+    cursor: pointer;
+    text-decoration: none; /* Behåll om du vill ha det i vissa fall */
+}
+
+a:-webkit-any-link:hover {
+    color: black;
+    cursor: pointer;
+    text-decoration: underline; /* Behåll om du vill ha det i vissa fall */
+}
