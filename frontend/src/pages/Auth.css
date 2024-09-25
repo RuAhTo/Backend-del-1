@@ -1,28 +1,47 @@
 .auth-container{
-    padding: .8rem;
+    padding: 1rem;
     border-radius: .6rem;
-    height: 20rem;
-    width: 24rem;
+    height: auto;
+    width: 28rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-direction: column;
+    align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .auth-form-container{
     display: flex;
     flex-direction: column;
     gap: .8rem;
+    width: 100%;
+    font-size: 14px;
 }
 
 .input-container{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+}
+
+.input-container input:hover{
+    outline: 1px solid black;
+}
+
+.input-container label{
+    margin: .2rem 0;
+    text-transform: capitalize;
+    font-style: italic;
 }
 
 .input-container input{
-    border: 1px solid rgb(175, 175, 175);
-    border-radius: .2rem;
-    padding: .1rem;
+    border: none;
+    outline: none;
+    border-radius: .6rem;
+    padding: 1rem;
+    background-color: rgb(230, 198, 255);
+}
+
+.input-container input:focus{
+    outline: 2px solid black;
 }
 
 .auth-btn-container{
@@ -32,21 +51,27 @@
 }
 
 .auth-btn-container button{
-    margin-top: 2rem;
+    margin-top: 1rem;
     border: none;
     background: none;
-    background-color:rgb(250, 26, 119);
-    width: 10rem;
+    background-color:rgba(153, 26, 250, 0.545);
+    width: 100%;
     border-radius: 2rem;
-    height: 2rem;
+    height: 2.6rem;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.auth-btn-container button:hover{
+    background-color:rgba(153, 26, 250, 0.276);
+    cursor: pointer;
 }
 
 .auth-link-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 1.5rem;
+    margin-top: 1rem;
+    height: 2rem;
 }
 .auth-link-container p{
     font-size: small;

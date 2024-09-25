@@ -55,7 +55,6 @@ return(
                         type="text" 
                         name="username" 
                         id="usernameInput" 
-                        placeholder="Enter a username.."
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
@@ -65,7 +64,6 @@ return(
                         type="password" 
                         name="password" 
                         id="passwordInput" 
-                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} 
                     />

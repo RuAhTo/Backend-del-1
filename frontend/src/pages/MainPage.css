@@ -79,8 +79,11 @@ main{
     padding: 2rem;
     border-radius: 8px;
     position: relative;
-    width: 50rem;
+    bottom: 16%;
+    width: 40rem;
     height: 30rem;
+    display: flex;
+    flex-direction: column;
   }
   
   .modal-header{
@@ -96,9 +99,9 @@ main{
     right: 10px;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
-    width: 4rem;
+    width: 3rem;
   }
   
   .open-modal-btn {
@@ -107,15 +110,16 @@ main{
     cursor: pointer;
   }
   
-  /* .title-input-container{
-  
-  } */
+  .title-input-container input{
+    padding: .2rem;
+    border: none;
+    border-bottom: 1px solid black;
+  }
   
   .color-selector-container{
     display: flex;
-    width: 25%;
+    width: 36%;
     justify-content: space-around;
-  
   }
   
   .color-pip{
@@ -129,7 +133,7 @@ main{
   }
   
   .color-selected{
-    box-shadow: rgba(0, 0, 0, 0.473) 0px 0px 0px 2px;
+    box-shadow: rgb(0, 0, 0) 0px 0px 0px 2px;
   }
   .color-1{
     background-color: rgb(137, 137, 255);

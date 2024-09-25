@@ -38,13 +38,12 @@ const LogIn: React.FC = () => {
                 <h2>Log In</h2>
                 <form className='auth-form-container' onSubmit={handleLogin}>
                         <div className="username-container input-container">
-                            <label>Username</label>
+                            {/* <label>Username</label> */}
+                            <label htmlFor="username">Username</label>
                             <input 
                                 type="text" 
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Enter a username.." 
-                            />
+                                onChange={(e) => setUsername(e.target.value)}/>
                         </div>
                         <div className="password-container input-container">
                             <label>Password</label>
@@ -52,10 +51,9 @@ const LogIn: React.FC = () => {
                                 type="password" 
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Password" 
                             />
                         </div>
-                        <div className="auth-btn-container">
+                        <div className="auth-btn-container" tabIndex={2}>
                             <button type="submit">Log In</button>
                         </div>
                 </form>

@@ -1,5 +1,7 @@
 import Dropdown from "../dropdown/Dropdown";
 import { useEffect, useState } from 'react';
+import { FaWindowClose } from "react-icons/fa";
+
 import './AddModal.css'
 
 interface Todo {
@@ -99,7 +101,7 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
             <div className="modal-content">
                 <div className="modal-header">
                     <h2>Create a Todo</h2>
-                    <button onClick={closeModal} className="close-modal-btn">X</button>
+                    <button onClick={closeModal} className="close-modal-btn"><FaWindowClose /></button>
                 </div>
                 <form className="add-form" onSubmit={handleAddTodo}>
                     <div className="title-input-container">
