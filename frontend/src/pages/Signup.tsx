@@ -6,20 +6,22 @@ export default function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
-    const [loading, setLoding] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [buttonShake, setButtonShake] = useState(false);
     const navigate = useNavigate();
 
     const handleSignup = async (event: React.FormEvent) => {
+        event.preventDefault();
 
                 // Kontrollera att alla fält är ifyllda
         if (!username || !password || !email) {
-            alert('Alla fält måste fyllas i.');
+            setButtonShake(true)
+            setTimeout(() => setButtonShake(false), 500); // Ta bort animation efter 500ms
             return;
         }
 
-        setLoding(true);
+        setLoading(true);
 
-        event.preventDefault();
         try {
             const response = await fetch('http://localhost:3000/dnd_todo/users', {
                 method: 'POST',
@@ -43,7 +45,7 @@ export default function SignIn() {
         } catch (error) {
             console.log('Error', error);
         } finally{
-            setLoding(false)
+            setLoading(false)
         }
 }
     
@@ -89,7 +91,11 @@ return(
                     />
                 </div>
                 <div className="auth-btn-container">
-                            <button type="submit" disabled={loading}>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={buttonShake ? 'shake-horizontal' : ''}
+                            >
                                 {loading ? 'Loading...' : 'Submit'}
                             </button>
                         </div>

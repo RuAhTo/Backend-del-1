@@ -12,6 +12,8 @@ const LogIn: React.FC = () => {
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
+
+        
         setLoding(true)
         const response = await fetch('http://localhost:3000/dnd_todo/login', {
             method: 'POST',
