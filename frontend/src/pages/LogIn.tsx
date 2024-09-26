@@ -8,9 +8,11 @@ const LogIn: React.FC = () => {
     const navigate = useNavigate(); // Använd useNavigate för att navigera
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoding] = useState(false)
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
+        setLoding(true)
         const response = await fetch('http://localhost:3000/dnd_todo/login', {
             method: 'POST',
             headers: {
@@ -19,12 +21,16 @@ const LogIn: React.FC = () => {
             body: JSON.stringify({ username, password }), // Lägg till användarnamn och lösenord
         });
 
-        if (response.ok) {
+        try {
             const data = await response.json();
             login(data.token);
             localStorage.setItem('token', data.token); // Spara token i localStorage
             localStorage.setItem('userId', data.id); // Spara användarens ID separat
             navigate('/'); // Navigera till huvudsidan
+        } catch (error){
+            console.error('Error:', error);
+        } finally{
+            setLoding(false);
         }
     };
 
@@ -53,8 +59,10 @@ const LogIn: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <div className="auth-btn-container" tabIndex={2}>
-                            <button type="submit">Log In</button>
+                        <div className="auth-btn-container">
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Loading...' : 'Log in'}
+                            </button>
                         </div>
                 </form>
             <div className='auth-link-container'>
