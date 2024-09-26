@@ -1,13 +1,39 @@
+body {
+    background-image: url('/Users/rubenahlin/Documents/VSC/Backend del 1/frontend/public/milad-fakurian-bexwsdM5BCw-unsplash.jpg'); /* Lägg till din bild här */
+    background-size: cover; /* Bilden täcker hela sidan */
+    background-position: center; /* Centrerar bilden */
+    background-repeat: no-repeat; /* Förhindrar att bilden upprepas */
+    height: 100vh; /* Ser till att hela sidan täcks */
+    margin: 0; /* Tar bort eventuell standardmarginal på body */
+}
+
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
 .auth-container{
-    padding: 1rem;
+    padding: 2rem;
     border-radius: .6rem;
     height: auto;
-    width: 28rem;
+    width: 30rem;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    background-color: rgba(255, 255, 255, 0.937);
+    backdrop-filter: blur(1px);
 }
 .auth-form-container{
     display: flex;
@@ -37,7 +63,6 @@
     outline: none;
     border-radius: .6rem;
     padding: 1rem;
-    background-color: rgb(230, 198, 255);
 }
 
 .input-container input:focus{
@@ -54,7 +79,7 @@
     margin-top: 1rem;
     border: none;
     background: none;
-    background-color:rgba(153, 26, 250, 0.545);
+    background-color: rgba(125, 162, 241, 0.77);
     width: 100%;
     border-radius: 2rem;
     height: 2.6rem;
@@ -62,7 +87,7 @@
 }
 
 .auth-btn-container button:hover{
-    background-color:rgba(153, 26, 250, 0.276);
+    background-color: rgba(117, 150, 222, 0.748);
     cursor: pointer;
 }
 

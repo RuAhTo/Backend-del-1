@@ -8,11 +8,14 @@
     align-items: center;
     width: fit-content;
     padding: 1rem;
-    background-color: white;
+    background-color: rgba(125, 162, 241, 0.722);
     border-radius: 0.5rem;
     box-shadow: rgba(149, 157, 165, 0.2)
     0px 8px 24px;
     cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .toggle.icon{
@@ -30,7 +33,7 @@
     align-items: center;
     padding: 1rem;
     margin-top: 0.5rem;
-    background-color: white;
+    background-color: rgba(125, 162, 241, 0.897);
     border-radius: 0.5rem;
     box-shadow: rgba(149, 157, 165, 0.2);
     max-height: 40vh;
@@ -44,12 +47,17 @@
     pointer-events: none;
 }
 
+.dropdown-btn:hover{
+    border: 1px solid black;
+}
+
 .dropdown-content::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 .button-open{
-    border: rgb(147,197,253) 2px solid;
+    border: 1px solid black;
+
 }
 .content-open{
     opacity: 1;
@@ -66,5 +74,5 @@
 }
 
 .dropdown-item:hover{
-    background-color: rgb(240,249,255);
+    background-color: rgba(156, 180, 231, 0.971);
 }

@@ -41,8 +41,8 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
     // Skapa ny todo
     async function handleAddTodo(e: React.FormEvent) {
         e.preventDefault();
-        if (!title || !content) {
-            alert("Title and/or content are required!");
+        if (!title) {
+            alert("Title is required!");
             return;
         }
 
@@ -104,15 +104,16 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
                     <button onClick={closeModal} className="close-modal-btn"><FaWindowClose /></button>
                 </div>
                 <form className="add-form" onSubmit={handleAddTodo}>
-                    <div className="title-input-container">
+                    <div className="input-container">
+                        <label htmlFor="">Title</label>
                         <input 
                             type="text" 
                             value={title} 
                             onChange={(e) => setTitle(e.target.value)} 
-                            placeholder="Title"
                         />
                     </div>
-                    <div className="content-input-container">
+                    <div className="input-container">
+                    <label htmlFor="">What needs to get done?</label>
                         <input 
                             type="text"
                             value={content} 
@@ -120,14 +121,20 @@ export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps)
                             placeholder="What do you need to do?"
                         />
                     </div>
-                    <div className="color-selector-container">
-                        {colors.map((colorValue) => (
-                            <div
-                                key={colorValue}
-                                className={`color-${colorValue} color-pip ${color === colorValue ? 'color-selected' : ''}`}
-                                onClick={() => handleColorClick(colorValue)}
-                            ></div>
-                        ))}
+                    <div>
+                        <div className="input-container">
+                            <label htmlFor="">Color</label>
+                        </div>
+                        <div className="color-selector-container">
+                            {colors.map((colorValue) => (
+                                <div
+                                    key={colorValue}
+                                    className={`color-${colorValue} color-pip ${color === colorValue ? 'color-selected' : ''}`}
+                                    onClick={() => handleColorClick(colorValue)}
+                                ></div>
+                                
+                            ))}
+                        </div>
                     </div>
                     <div className="dropdown-container">
                         <Dropdown 
