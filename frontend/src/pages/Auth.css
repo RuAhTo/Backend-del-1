@@ -53,6 +53,12 @@ main {
     outline: none;
     border-radius: .6rem;
     padding: 1rem;
+    width: 100%;
+    height: 2.4rem;
+}
+
+input[type="password"]{
+    font-size: medium;
 }
 
 .input-container input:focus{
@@ -63,6 +69,14 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+.auth-btn-container p{
+    margin-top: 1rem;
+    color: red;
+    font-style: italic;
+    font-size: small;
 }
 
 .auth-btn-container button{
@@ -169,4 +183,26 @@ a:-webkit-any-link:hover {
     -webkit-transform: translateX(-8px);
             transform: translateX(-8px);
   }
+}
+
+
+.show-password-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+input[type="checkbox"]{
+    width: auto;
+}
+
+input[type="checkbox"]:hover{
+    border: none !important;
+    outline: none !important;
+}
+
+input[type="checkbox"]:focus{
+    border: none !important;
+    outline: none !important;
 }

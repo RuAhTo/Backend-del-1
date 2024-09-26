@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlusCircle, FaQuestionCircle } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import AddModal from './Modal/AddModal';
 import '../pages/MainPage.css'
 

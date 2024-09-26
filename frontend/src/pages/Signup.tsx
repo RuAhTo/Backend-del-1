@@ -8,6 +8,8 @@ export default function SignIn() {
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
     const [buttonShake, setButtonShake] = useState(false);
+    const [formError, setFormError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleSignup = async (event: React.FormEvent) => {
@@ -15,11 +17,13 @@ export default function SignIn() {
 
                 // Kontrollera att alla fält är ifyllda
         if (!username || !password || !email) {
+            setFormError('Please enter all the fields')
             setButtonShake(true)
             setTimeout(() => setButtonShake(false), 500); // Ta bort animation efter 500ms
             return;
         }
 
+        setFormError('');
         setLoading(true);
 
         try {
@@ -71,15 +75,26 @@ return(
                     />
                 </div>
                 <div className="password-container input-container">
-                    <label htmlFor="password">Password</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        id="passwordInput" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} 
-                    />
-                </div>
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type={showPassword ? "text" : "password"} // Dynamiskt byt mellan 'text' och 'password'
+                                name="password"
+                                id="passwordInput"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            {/* Se lösenord-knapp */}
+                            <div className="show-password-container">
+                                <input 
+                                type="checkbox"
+                                className="show-password-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                                />
+                                <label htmlFor="">Show password</label>
+                            </div>
+
+
+                        </div>
                 <div className="email-container input-container">
                     <label htmlFor="email">Email</label>
                     <input 
@@ -91,14 +106,15 @@ return(
                     />
                 </div>
                 <div className="auth-btn-container">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className={buttonShake ? 'shake-horizontal' : ''}
-                            >
-                                {loading ? 'Loading...' : 'Submit'}
-                            </button>
-                        </div>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className={buttonShake ? 'shake-horizontal' : ''}
+                    >
+                        {loading ? 'Loading...' : 'Submit'}
+                    </button>
+                    <p>{formError}</p>
+                </div>
             </form>
             
             <div className="auth-link-container">
