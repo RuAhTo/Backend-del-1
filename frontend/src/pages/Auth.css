@@ -1,13 +1,3 @@
-body {
-    background-image: url('/Users/rubenahlin/Documents/VSC/Backend del 1/frontend/public/milad-fakurian-bexwsdM5BCw-unsplash.jpg'); /* Lägg till din bild här */
-    background-size: cover; /* Bilden täcker hela sidan */
-    background-position: center; /* Centrerar bilden */
-    background-repeat: no-repeat; /* Förhindrar att bilden upprepas */
-    height: 100vh; /* Ser till att hela sidan täcks */
-    margin: 0; /* Tar bort eventuell standardmarginal på body */
-}
-
-
 header {
     display: flex;
     justify-content: center;

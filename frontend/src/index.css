@@ -9,4 +9,9 @@ body{
   /* width: 90vw;
   height: 90vh; */
   margin: 0 1rem;
+  background-image: url('/milad-fakurian-bexwsdM5BCw-unsplash.jpg'); /* Lägg till din bild här */
+  background-size: cover; /* Bilden täcker hela sidan */
+  background-position: center; /* Centrerar bilden */
+  background-repeat: no-repeat; /* Förhindrar att bilden upprepas */
+  height: 100vh; /* Ser till att hela sidan täcks */
 }
