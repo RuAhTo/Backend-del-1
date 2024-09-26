@@ -6,9 +6,18 @@ export default function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
-    const navigate = useNavigate(); // Använd useNavigate för att navigera
+    const [loading, setLoding] = useState(false)
+    const navigate = useNavigate();
 
     const handleSignup = async (event: React.FormEvent) => {
+
+                // Kontrollera att alla fält är ifyllda
+        if (!username || !password || !email) {
+            alert('Alla fält måste fyllas i.');
+            return;
+        }
+
+        setLoding(true);
 
         event.preventDefault();
         try {
@@ -27,13 +36,14 @@ export default function SignIn() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('response ok', data);
-                alert(`User ${data.username} created`);
-                navigate('/login'); // Navigera till huvudsidan
+                navigate('/registered'); // Navigera till huvudsidan
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }
         } catch (error) {
             console.log('Error', error);
+        } finally{
+            setLoding(false)
         }
 }
     
@@ -79,9 +89,12 @@ return(
                     />
                 </div>
                 <div className="auth-btn-container">
-                    <button type="submit">Submit</button>
-                </div>
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Loading...' : 'Submit'}
+                            </button>
+                        </div>
             </form>
+            
             <div className="auth-link-container">
                 <p>Already a member?</p>
                 <Link to="/login">Click here!</Link>

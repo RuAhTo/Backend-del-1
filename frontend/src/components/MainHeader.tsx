@@ -16,12 +16,12 @@ export default function MainHeader({ addTodo }: MainHeaderProps) {
     return (
         <div className="main-header">
             <div>
-                <h4>Make it happen!</h4>
+                <h4></h4>
             </div>
             <div className="main-header-btn-container">
                 <button className="header-btn" onClick={openModal}><FaPlusCircle className='btn-icon'/></button>
                 <button className="header-btn">Account</button>
-                <button className="header-btn"><FaQuestionCircle className='btn-icon'/></button>
+                {/* <button className="header-btn"><FaQuestionCircle className='btn-icon'/></button> */}
             </div>
             <AddModal isOpen={isModalOpen} closeModal={closeModal} addTodo={addTodo} />
         </div>

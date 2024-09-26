@@ -15,3 +15,7 @@ body{
   background-repeat: no-repeat; /* Förhindrar att bilden upprepas */
   height: 100vh; /* Ser till att hela sidan täcks */
 }
+
+h1, h2{
+  font-weight: 400;
+}

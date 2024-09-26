@@ -19,8 +19,8 @@ main{
 .main-header-btn-container{
     display: flex;
     justify-content: space-evenly;
-    gap: 1rem;
-    width: 15%;
+    width: 10%;
+    margin-right: .2rem;
 }
 
 .main-header-btn-container button{
