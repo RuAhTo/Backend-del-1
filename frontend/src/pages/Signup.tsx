@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import './Auth.css'
 
@@ -10,7 +10,18 @@ export default function SignIn() {
     const [buttonShake, setButtonShake] = useState(false);
     const [formError, setFormError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [scaleOut, setScaleOut] = useState(false);
     const navigate = useNavigate();
+    const [fadeIn, setFadeIn] = useState(false);
+
+    useEffect(() => {
+        setFadeIn(true);
+        const timer = setTimeout(() => {
+            setFadeIn(false);
+        }, 400);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleSignup = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -42,7 +53,12 @@ export default function SignIn() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('response ok', data);
-                navigate('/registered'); // Navigera till huvudsidan
+                setScaleOut(true);
+                setTimeout(() => {
+                    setScaleOut(false)
+                    navigate('/registered');
+                } ,1000)
+
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }
@@ -61,7 +77,7 @@ return(
         <h1>Welcome!</h1>
     </header>
     <main>
-        <div className="auth-container">
+        <div className={`auth-container ${scaleOut ? 'slide-out-bottom' : ''} ${fadeIn ? 'fade-in': ''}`}>
             <h2>Sign Up</h2>
             <form className="auth-form-container" onSubmit={handleSignup}>
                 <div className="username-container input-container">

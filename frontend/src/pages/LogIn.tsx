@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css'
@@ -12,6 +12,16 @@ const LogIn: React.FC = () => {
     const [buttonShake, setButtonShake] = useState(false);
     const [formError, setFormError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [fadeIn, setFadeIn] = useState(false);
+
+    useEffect(() => {
+        setFadeIn(true);
+        const timer = setTimeout(() => {
+            setFadeIn(false);
+        }, 800);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -61,7 +71,7 @@ const LogIn: React.FC = () => {
             <h1>Welcome Back!</h1>
         </header>
         <main>
-            <div className="auth-container">
+            <div className={`auth-container ${fadeIn ? 'fade-in': ''}`}>
                 <h2>Log In</h2>
                 <form className='auth-form-container' onSubmit={handleLogin}>
                     <div className="username-container input-container">
