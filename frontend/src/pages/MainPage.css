@@ -2,11 +2,11 @@
 header{
     display: flex;
     align-items: center;
-    height: 10vh;
+    height: 14vh;
     width: 100%;
 }
 main{
-    height: 70vh;
+    height: 80vh;
 }
 .main-header{
     display: flex;
@@ -77,13 +77,14 @@ main{
   }
   
   .modal-content {
+    margin-top: 10rem;
     background: white;
     padding: 2rem;
     border-radius: 8px;
     position: relative;
     bottom: 16%;
     width: 40rem;
-    height: 34rem;
+    height: fit-content;
     display: flex;
     flex-direction: column;
   }

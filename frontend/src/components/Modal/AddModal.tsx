@@ -19,7 +19,7 @@ interface AddModalProps {
     addTodo: (todo: Todo) => void;
 }
 
-export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
+    export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
 
     // States
     const [title, setTitle] = useState<string>('');

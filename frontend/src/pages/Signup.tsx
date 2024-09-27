@@ -5,6 +5,7 @@ import './Auth.css'
 export default function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
     const [buttonShake, setButtonShake] = useState(false);
@@ -31,6 +32,13 @@ export default function SignIn() {
             setFormError('Please enter all the fields')
             setButtonShake(true)
             setTimeout(() => setButtonShake(false), 500); // Ta bort animation efter 500ms
+            return;
+        }
+
+        if (password != confirmPassword){
+            setFormError('Passwords is not a match')
+            setButtonShake(true)
+            setTimeout(() => setButtonShake(false), 500)
             return;
         }
 
@@ -91,26 +99,34 @@ return(
                     />
                 </div>
                 <div className="password-container input-container">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type={showPassword ? "text" : "password"} // Dynamiskt byt mellan 'text' och 'password'
-                                name="password"
-                                id="passwordInput"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {/* Se lösenord-knapp */}
-                            <div className="show-password-container">
-                                <input 
-                                type="checkbox"
-                                className="show-password-btn"
-                                onClick={() => setShowPassword(!showPassword)}
-                                />
-                                <label htmlFor="">Show password</label>
-                            </div>
-
-
-                        </div>
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type={showPassword ? "text" : "password"} // Dynamiskt byt mellan 'text' och 'password'
+                        name="password"
+                        id="passwordInput"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="password-container input-container">
+                    <label htmlFor="password">Confirm password</label>
+                    <input
+                        type={showPassword ? "text" : "password"} // Dynamiskt byt mellan 'text' och 'password'
+                        name="password"
+                        id="confirmPasswordInput"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    {/* Se lösenord-knapp */}
+                    <div className="show-password-container">
+                        <input 
+                        type="checkbox"
+                        className="show-password-btn"
+                        onClick={() => setShowPassword(!showPassword)}
+                        />
+                        <label htmlFor="">Show password</label>
+                    </div>
+                </div>
                 <div className="email-container input-container">
                     <label htmlFor="email">Email</label>
                     <input 

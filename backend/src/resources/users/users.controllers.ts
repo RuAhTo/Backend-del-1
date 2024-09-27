@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
+import { AuthenticatedRequest } from "../../middleware/verifyToken";
 
 const prisma = new PrismaClient();
 
@@ -170,3 +171,49 @@ export async function updateUser(req: Request, res: Response) {
       res.status(500).json({ error: "Login failed!" });
     }
   }
+
+  /*
+  PATCH */
+
+  export async function updatePartialUser(req: AuthenticatedRequest, res: Response) {
+    const { id } = req.params; // Användarens ID
+    const { username, password, email } = req.body;
+
+    // Anta att du har en `userId` i din verifierade token från middleware
+    const userId = (req.user as { id: number }).id; // Typkorrigering
+
+    if (Number(id) !== userId) {
+        return res.status(403).json({ message: "Forbidden: You can only update your own account" });
+    }
+
+    try {
+        const updateData: { username?: string; password?: string; email?: string } = {};
+
+        // Hasha lösenordet om det finns ett nytt lösenord
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updateData.password = hashedPassword; // Lägg till det hashade lösenordet
+        }
+        
+        // Lägg till andra uppgifter om de finns
+        if (username) {
+            updateData.username = username;
+        }
+        if (email) {
+            updateData.email = email;
+        }
+
+        // Uppdatera användarens uppgifter i databasen
+        const updatedUser = await prisma.user.update({
+            where: { id: Number(id) }, // Hitta användaren baserat på ID
+            data: updateData, // Använd den uppdaterade datan
+        });
+
+        res.status(200).json({ message: "User information updated!", user: updatedUser });
+    } catch (error) {
+        console.error("Error details:", error);
+        res.status(500).json({ error: "Database query failed!" });
+    } finally {
+        await prisma.$disconnect();
+    }
+}

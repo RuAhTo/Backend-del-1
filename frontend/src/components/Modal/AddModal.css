@@ -58,6 +58,12 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    gap:2rem;
+  }
+
+  #logout-btn{
+    background-color: rgb(126, 126, 126);
   }
   
   .todo-submit-btn-container button{
