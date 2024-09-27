@@ -17,27 +17,12 @@ export default function ToDoCard({ id, title, content, color }: ToDoCardProps) {
         id: id.toString(),
     });
 
-//     const handleDragEnd = (event: DragEndEvent) => {
-//       const { active, over } = event;
-  
-//       if (over) {
-//           const oldTodo = todos.find(todo => todo.id === Number(active.id));
-//           const newStatus = over.id; // Detta ID ska matcha kategorins ID
-  
-//           if (oldTodo && newStatus) {
-//               setTodos(todos.map(todo =>
-//                   todo.id === oldTodo.id ? { ...todo, status: newStatus as 'todo' | 'in-progress' | 'done' } : todo
-//               ));
-//           }
-//       }
-//   };
-
     return (
         <div
             ref={setNodeRef}
             {...listeners}
             {...attributes}
-            className={`todo-card ${isDragging ? 'dragging' : ''}`} // Lägg till klassen vid dragning
+            className={`todo-card ${isDragging ? 'dragging' : ''}`}
             style={{ transform: CSS.Translate.toString(transform) }}
         >
             <div className={`todo-card-header color-${color}`}>

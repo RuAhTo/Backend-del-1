@@ -5,7 +5,7 @@ import { FaWindowClose } from "react-icons/fa";
 import './AddModal.css'
 
 interface Todo {
-    id: number;
+    // id: number;
     title: string;
     content: string;
     color: number;
@@ -50,12 +50,11 @@ interface AddModalProps {
         const authorId = localStorage.getItem('userId');
 
         const newTodo: Todo = {
-            id: Date.now(), // Generera ett unikt ID (eller hantera det på annat sätt om du har en backend)
             title,
             content,
             color,
-            status, // Använd status från state
-            authorId: authorId ? parseInt(authorId) : null, // Konvertera userId till ett heltal om det finns
+            status,
+            authorId: authorId ? parseInt(authorId) : null
         };
 
         // Skicka information till backend
@@ -65,14 +64,16 @@ interface AddModalProps {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newTodo), // Använd newTodo direkt
+                body: JSON.stringify(newTodo),
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log('response ok', data);
-                alert(`Todo "${data.title}" created`);
-                addTodo(newTodo); // Skicka todo med korrekt status
+                const savedTodo = await response.json();
+
+                console.log('response ok', savedTodo);
+                alert(`Todo "${savedTodo.title}" created`);
+                console.log(savedTodo)
+                addTodo(savedTodo); // Skicka todo med korrekt status
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }

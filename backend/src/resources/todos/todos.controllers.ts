@@ -65,7 +65,7 @@ export async function createTodo(req: Request, res: Response) {
 
     res
       .status(201)
-      .json({ id: newTodo.id, message: "Todo created!", title: newTodo.title, status: newTodo.status, authorId: newTodo.authorId });
+      .json({ id: newTodo.id, message: "Todo created!", title: newTodo.title, status: newTodo.status, authorId: newTodo.authorId, color: newTodo.color, content: newTodo.content });
   } catch (error) {
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });
