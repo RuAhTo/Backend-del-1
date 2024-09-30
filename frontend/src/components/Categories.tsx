@@ -2,6 +2,7 @@ import React from "react";
 import ToDoCard from "./TodoCard/ToDoCard";
 import { useDroppable } from "@dnd-kit/core";
 import '../index.css';
+import { FaTrash } from "react-icons/fa";
 
 interface Todo {
     id: number;
@@ -14,6 +15,7 @@ interface Todo {
 interface CategoriesProps {
     todos: Todo[];
     setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+    isDragging: boolean; // Ny prop för att hålla koll på om något dras
 }
 
 const Droppable = ({ id, children }: { id: string; children: React.ReactNode }) => {
@@ -34,7 +36,21 @@ const Droppable = ({ id, children }: { id: string; children: React.ReactNode }) 
     );
 };
 
-export default function Categories({ todos }: CategoriesProps) {
+// Skapar en egen TrashZone komponent utan de vanliga drop-zone-klasserna
+const TrashZone = () => {
+    const { setNodeRef, isOver } = useDroppable({
+        id: 'TRASH', // Specifik id för trash-zonen
+    });
+
+    return (
+        <div ref={setNodeRef} className={`trash-zone ${isOver ? 'over' : ''}`}>
+            <FaTrash className={`trash-zone-icon`} />
+            <p className="trash-zone-text">Släpp här för att radera</p>
+        </div>
+    );
+};
+
+export default function Categories({ todos, isDragging }: CategoriesProps) {
     return (
         <>
             <div className="todo-status-container status-container">
@@ -75,6 +91,9 @@ export default function Categories({ todos }: CategoriesProps) {
                     </div>
                 </Droppable>
             </div>
+
+            {/* Trash zone - visas bara när något dras */}
+            {isDragging && <TrashZone />}
         </>
     );
 }

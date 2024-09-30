@@ -16,8 +16,17 @@ interface Todo {
 
 export default function MainPage() {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [isDragging, setIsDragging] = useState(false); // Håller koll på om något dras
+
+    const token = localStorage.getItem('token')
+
+    const handleDragStart = (event: DragStartEvent): void => {
+        setIsDragging(true);
+    };
 
     const handleDragEnd = async (event: DragEndEvent): Promise<void> => {
+        setIsDragging(false); // Dölj trash-zonen när något har släppts
+
         const { active, over } = event;
 
         if (!over) return;
@@ -25,7 +34,18 @@ export default function MainPage() {
         const activeId = active.id.toString();
         const overId = over.id.toString();
 
-        // Kontrollera om overId är en giltig status
+        // Kontrollera om overId är "TRASH" för radering
+        if (overId === 'TRASH') {
+            const todoToDelete = todos.find(todo => todo.id.toString() === activeId);
+            if (todoToDelete) {
+                if (window.confirm(`Är du säker på att du vill radera uppgiften "${todoToDelete.title}"?`)) {
+                    await handleDelete(todoToDelete.id);
+                }
+            }
+            return; // Returnera direkt efter radering
+        }
+
+        // Kontrollera om overId är en giltig status för statusuppdatering
         const validStatuses: Todo['status'][] = ['TODO', 'IN_PROGRESS', 'DONE'];
         if (!validStatuses.includes(overId as Todo['status'])) {
             console.error('Invalid status:', overId);
@@ -69,6 +89,29 @@ export default function MainPage() {
         }
     }
 
+    // Funktion för att radera en Todo
+    const handleDelete = async (id: number): Promise<void> => {
+        try {
+            const response = await fetch(`http://localhost:3000/dnd_todo/todos/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                setTodos(todos.filter(todo => todo.id !== id));
+                alert('Uppgiften har raderats.');
+            } else {
+                throw new Error('Kunde inte radera uppgiften.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Misslyckades med att radera uppgiften.');
+        }
+    };
+
     const fetchTodos = async (): Promise<void> => {
         try {
             const token = localStorage.getItem('token'); // Hämta token från localStorage
@@ -103,12 +146,12 @@ export default function MainPage() {
 
     return (
         <>
-            <DndContext onDragEnd={handleDragEnd}>
+            <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                 <header>
                     <MainHeader addTodo={(newTodo: Todo) => setTodos([...todos, newTodo])} />
                 </header>
                 <main>
-                    <Categories todos={todos} setTodos={setTodos} />
+                    <Categories todos={todos} setTodos={setTodos} isDragging={isDragging} />
                 </main>
             </DndContext>
         </>
