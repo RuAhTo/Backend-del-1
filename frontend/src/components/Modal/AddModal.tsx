@@ -1,16 +1,14 @@
 import Dropdown from "../dropdown/Dropdown";
 import { useEffect, useState } from 'react';
 import { FaWindowClose } from "react-icons/fa";
-
-import './AddModal.css'
+import './AddModal.css';
 
 interface Todo {
-    // id: number;
     title: string;
     content: string;
     color: number;
     status: 'TODO' | 'IN_PROGRESS' | 'DONE';
-    authorId: number | null; // Ändra till userId för att matcha din backend
+    authorId: number | null;
 }
 
 interface AddModalProps {
@@ -19,20 +17,22 @@ interface AddModalProps {
     addTodo: (todo: Todo) => void;
 }
 
-    export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
+export default function AddModal({ isOpen, closeModal, addTodo }: AddModalProps) {
 
     // States
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [color, setColor] = useState<number>(1);
     const [status, setStatus] = useState<'TODO' | 'IN_PROGRESS' | 'DONE'>('TODO');
+    const [formError, setFormError] = useState<string>(''); // För felmeddelanden
+    const [buttonShake, setButtonShake] = useState(false); // För knappskakning
+    const [loading, setLoading] = useState(false); // Laddningsindikator
 
-    // useEffect som triggas när färgen ändras, för att logga den uppdaterade färgen
+    // useEffect för att logga färgen
     useEffect(() => {
         console.log(`Current color is ${color}`);
-    }, [color]); // Körs när "color" uppdateras
+    }, [color]);
 
-    // Array
     const colors = [1, 2, 3, 4, 5];
 
     // Om modalen inte är öppen returnera null
@@ -41,8 +41,12 @@ interface AddModalProps {
     // Skapa ny todo
     async function handleAddTodo(e: React.FormEvent) {
         e.preventDefault();
+
+        // Kontrollera att titel är ifylld
         if (!title) {
-            alert("Title is required!");
+            setFormError('Title is required!');
+            setButtonShake(true);
+            setTimeout(() => setButtonShake(false), 500); // Ta bort skakning efter 500ms
             return;
         }
 
@@ -57,7 +61,9 @@ interface AddModalProps {
             authorId: authorId ? parseInt(authorId) : null
         };
 
-        // Skicka information till backend
+        setLoading(true); // Sätt laddningsstatus till true
+
+        // Skicka todo till backend
         try {
             const response = await fetch('http://localhost:3000/dnd_todo/todos', {
                 method: 'POST',
@@ -69,24 +75,25 @@ interface AddModalProps {
 
             if (response.ok) {
                 const savedTodo = await response.json();
-
                 console.log('response ok', savedTodo);
                 alert(`Todo "${savedTodo.title}" created`);
-                console.log(savedTodo)
-                addTodo(savedTodo); // Skicka todo med korrekt status
+                addTodo(savedTodo);
             } else {
                 throw new Error('Something went wrong ¯\\_(ツ)_/¯');
             }
         } catch (error) {
             console.log('Error', error);
+            setFormError('Failed to create todo');
+        } finally {
+            setLoading(false); // Sätt laddningsstatus till false
         }
 
-        // Reset form
+        // Reset form och stäng modal
         setTitle('');
         setContent('');
         setColor(1);
         setStatus('TODO');
-        closeModal(); // Stäng modal
+        closeModal();
     }
 
     const handleColorClick = (selectedColor: number) => {
@@ -102,7 +109,9 @@ interface AddModalProps {
             <div className="modal-content">
                 <div className="modal-header">
                     <h2>Create a Todo</h2>
-                    <button onClick={closeModal} className="close-modal-btn"><FaWindowClose /></button>
+                    <button onClick={closeModal} className="close-modal-btn">
+                        <FaWindowClose />
+                    </button>
                 </div>
                 <form className="add-form" onSubmit={handleAddTodo}>
                     <div className="input-container">
@@ -114,7 +123,7 @@ interface AddModalProps {
                         />
                     </div>
                     <div className="input-container">
-                    <label htmlFor="">What needs to get done?</label>
+                        <label htmlFor="">What needs to get done?</label>
                         <input 
                             type="text"
                             value={content} 
@@ -133,7 +142,6 @@ interface AddModalProps {
                                     className={`color-${colorValue} color-pip ${color === colorValue ? 'color-selected' : ''}`}
                                     onClick={() => handleColorClick(colorValue)}
                                 ></div>
-                                
                             ))}
                         </div>
                     </div>
@@ -145,10 +153,16 @@ interface AddModalProps {
                         />
                     </div>
                     <div className="todo-submit-btn-container">
-                        <button type="submit" className="submit-btn">
-                            Add Todo
+                        <button 
+                            type="submit" 
+                            className={`submit-btn ${buttonShake ? 'shake-horizontal' : ''}`} // Lägg till skakning vid fel
+                            disabled={loading} // Inaktivera knappen vid laddning
+                        >
+                            {loading ? 'Adding...' : 'Add Todo'}
                         </button>
                     </div>
+                    {/* Visa formfel */}
+                    {formError && <p className="error-message">{formError}</p>}
                 </form>
             </div>
         </div>

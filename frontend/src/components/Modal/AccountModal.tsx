@@ -16,6 +16,7 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
   const [buttonShake, setButtonShake] = useState(false);
   const [formError, setFormError] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false); // Lägger till laddningsindikator
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -23,26 +24,33 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
   async function handleUpdateAccount(e: React.FormEvent) {
     e.preventDefault();
 
+    // Kontrollera att minst ett fält är ifyllt
     if (!username && !password && !email) {
-      alert("Please enter something to update");
+      setFormError('Please enter something to update');
+      setButtonShake(true);
+      setTimeout(() => setButtonShake(false), 500); // Ta bort skakning efter 500ms
       return;
     }
 
-    if (password != confirmPassword){
-      setFormError('Passwords is not a match')
-      alert('Passwords do not match')
-      setButtonShake(true)
-      setTimeout(() => setButtonShake(false), 500)
+    // Kontrollera att lösenorden matchar
+    if (password !== confirmPassword) {
+      setFormError('Passwords do not match');
+      setButtonShake(true);
+      setTimeout(() => setButtonShake(false), 500);
       return;
-  }
+    }
 
+    // Rensa tidigare felmeddelanden och sätt laddningsstatus
+    setFormError('');
+    setLoading(true);
 
     // Hämta userId från localStorage
     const authorId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
     if (!authorId) {
-      alert("No user ID found, please log in again");
+      setFormError('No user ID found, please log in again');
+      setLoading(false);
       return;
     }
 
@@ -58,7 +66,7 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updatedAccount),
       });
@@ -72,7 +80,9 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
       }
     } catch (error) {
       console.log('Error', error);
-      alert('Failed to update account');
+      setFormError('Failed to update account');
+    } finally {
+      setLoading(false); // Sätt laddningsstatus till false
     }
 
     // Reset form och stäng modal
@@ -82,13 +92,11 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
     closeModal();
   }
 
-  function handleLogout(e: React.FormEvent){
-
+  function handleLogout(e: React.FormEvent) {
     e.preventDefault();
-    localStorage.removeItem('token')
-    localStorage.removeItem('userId')
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     navigate('/login');
-
   }
 
   return (
@@ -121,13 +129,12 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
               />
             </div>
             <div className="input-container">
-              <label htmlFor="password">Confirm password</label>
+              <label htmlFor="confirmPasswordInput">Confirm password</label>
               <input
-                    type='password'
-                    name="password"
-                    id="confirmPasswordInput"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                type="password"
+                id="confirmPasswordInput"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)} // Bekräftar lösenord
               />
             </div>
             <div className="input-container">
@@ -141,13 +148,19 @@ export default function AccountModal({ isOpen, closeModal, accountProps }: Accou
             </div>
 
             <div className="todo-submit-btn-container">
-              <button type="submit" className="submit-btn">
-                Update account
+              <button
+                type="submit"
+                className={`submit-btn ${buttonShake ? 'shake-horizontal' : ''}`} // Lägger till skakningsklass om fel
+                disabled={loading} // Inaktiverar knappen vid laddning
+              >
+                {loading ? 'Updating...' : 'Update account'}
               </button>
-              <button type="button" id='logout-btn' onClick={handleLogout}>
+              <button type="button" id="logout-btn" onClick={handleLogout}>
                 Log out
               </button>
             </div>
+            {/* Visa formfel */}
+            {formError && <p className="error-message">{formError}</p>}
           </form>
         </div>
       </div>
