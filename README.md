@@ -19,6 +19,10 @@ Följ dessa steg för att installera och köra projektet:
       ```plaintext
       DATABASE_URL=<din-databas-url>
       ```
+    - Kör dev:
+      ```bash
+      npm run dev
+      ```
 
 2. **Frontend**:
     - Navigera till frontend-mappen:
@@ -28,6 +32,10 @@ Följ dessa steg för att installera och köra projektet:
     - Installera alla nödvändiga beroenden:
       ```bash
       npm i
+      ```
+    - Kör dev:
+      ```bash
+      npm run dev
       ```
 
 ## Konfiguration
