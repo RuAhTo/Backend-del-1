@@ -33,8 +33,3 @@ Följ dessa steg för att installera och köra projektet:
 ## Konfiguration
 Databasens URL måste anges i `.env`-filen med variabelnamnet `DATABASE_URL`. URL:en skickas via Canvas eller vid förfrågan.
 
-## Användning
-(Specificera exempel på hur projektet används om det finns kommandon eller liknande.)
-
-## Kontakt
-För frågor eller förfrågningar om databas-URL, vänligen kontakta via Canvas eller enligt angivna kanaler.
